@@ -81,28 +81,17 @@ static int			lex_tetriminos(char **tetriminos)
 static int			parse_tetriminos(char **tetriminos)
 {
 	int			i;
-	int			j;
-	static int	pos[4] = {0, 0, 0, 0};
+	char		letter;
 
+	letter = 'A';
 	while (*tetriminos != NULL)
 	{
-		i = -1;
-		j = 0;
-		while ((*tetriminos)[++i])
-			if ((*tetriminos)[i] == '#')
-				pos[j++] = i;
+		i = 0;
+		while ((*tetriminos)[i] && (*tetriminos)[i] != '#')
+			i++;
+		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, letter++) != 4)
+			return (0);
 		tetriminos++;
-		if (check_for_square(pos))
-			continue ;
-		if (check_for_bar(pos))
-			continue ;
-		if (check_for_t(pos))
-			continue ;
-		if (check_for_s(pos))
-			continue ;
-		if (check_for_l(pos))
-			continue ;
-		return (0);
 	}
 	return (1);
 }

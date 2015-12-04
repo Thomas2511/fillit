@@ -34,7 +34,7 @@ LIBS = -L $(LIBDIR) -lft
 # source files
 SRC		= fillit.c \
 		  check_file.c \
-		  check_tetriminos.c
+		  is_tetriminos.c
 
 # obj
 OBJS	= $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
@@ -44,15 +44,15 @@ OBJS	= $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJS)
+	@$(MAKE) -C $(LIBDIR)
 	@echo "Compiling fillit..."
-	$(MAKE) -C $(LIBDIR)
-	$(CC) $(OBJS) -o $@ $(LIBS) $(CFLAGS)
+	@$(CC) $(OBJS) -o $@ $(LIBS) $(CFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $< -o $@ -c $(CFLAGS)
+	@$(CC) $< -o $@ -c $(CFLAGS)
 
 $(OBJDIR):
-	$(MKDIR) $@
+	@$(MKDIR) $@
 
 clean:
 	$(RM) -rf $(OBJDIR)
