@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "fillit.h"
 #include "libft.h"
 
-static void			bzero_tetriminos(char ***tetriminos)
+static void			bzero_tetriminos(char **tetriminos)
 {
 	int				i;
 
 	i = 0;
 	while (i < 26)
 	{
-		(*tetriminos)[i] = NULL;
-		i++;
+		*tetriminos = NULL;
+		++tetriminos;
+		++i;
 	}
 }
 
@@ -36,7 +38,7 @@ static char			**read_file(int fd)
 	j = 0;
 	if ((tetriminos = (char **)malloc(sizeof(char *) * 27)) == NULL)
 		return (NULL);
-	bzero_tetriminos(&tetriminos);
+	bzero_tetriminos(tetriminos);
 	ft_bzero(buf, 546);
 	if (read(fd, buf, 546) < 0)
 		return (NULL);
@@ -48,7 +50,7 @@ static char			**read_file(int fd)
 			return (NULL);
 		j += ft_strlen(tetriminos[i]);
 		tetriminos[i][ft_strlen(tetriminos[i])] = '\0';
-		i++;
+		++i;
 	}
 	return (tetriminos);
 }
@@ -56,24 +58,18 @@ static char			**read_file(int fd)
 static int			lex_tetriminos(char **tetriminos)
 {
 	int				i;
-	int				hash;
 
 	while (*tetriminos != NULL)
 	{
 		i = 0;
-		hash = 0;
 		while ((*tetriminos)[i])
 		{
 			if (((*tetriminos)[i] != '.' && (*tetriminos)[i] != '#')
 					&& (((i + 1) % 5) == 0 && (*tetriminos)[i] != '\n'))
 				return (0);
-			if ((*tetriminos)[i] == '#')
-				hash++;
-			i++;
+			++i;
 		}
-		if (hash != 4)
-			return (0);
-		tetriminos++;
+		++tetriminos;
 	}
 	return (1);
 }
@@ -81,17 +77,15 @@ static int			lex_tetriminos(char **tetriminos)
 static int			parse_tetriminos(char **tetriminos)
 {
 	int			i;
-	char		letter;
 
-	letter = 'A';
 	while (*tetriminos != NULL)
 	{
 		i = 0;
 		while ((*tetriminos)[i] && (*tetriminos)[i] != '#')
-			i++;
-		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, letter++) != 4)
+			++i;
+		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, 'a' + i) != 4)
 			return (0);
-		tetriminos++;
+		++tetriminos;
 	}
 	return (1);
 }

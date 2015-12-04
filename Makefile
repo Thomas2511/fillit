@@ -34,7 +34,8 @@ LIBS = -L $(LIBDIR) -lft
 # source files
 SRC		= fillit.c \
 		  check_file.c \
-		  is_tetriminos.c
+		  is_tetriminos.c \
+		  solver.c
 
 # obj
 OBJS	= $(patsubst %.c, $(OBJDIR)/%.o, $(SRC))

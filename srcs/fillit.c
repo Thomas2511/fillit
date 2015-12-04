@@ -20,6 +20,7 @@ static void			error(void)
 	exit(EXIT_FAILURE);
 }
 
+#include <stdio.h>
 int					main(int ac, char **av)
 {
 	int				fd;
@@ -34,7 +35,7 @@ int					main(int ac, char **av)
 	close(fd);
 	if (!tetriminos)
 		error();
-//	solver(tetriminos);
+	solver(tetriminos);
 	ft_clear_tab(tetriminos);
 	return (0);
 }
