@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_tetriminos.c                                    :+:      :+:    :+:   */
+/*   tetriminos_handling.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdieumeg <tdieumeg@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -9,23 +9,6 @@
 /*   Updated: 2015/12/04 12:56:50 by tdieumeg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-int				is_tetriminos(char *tetriminos, int i, char letter)
-{
-	int			hashNb;
-
-	hashNb = 0;
-	if (i >= 0 && i < 20 && tetriminos[i] == '#')
-	{
-		tetriminos[i] = letter;
-		++hashNb;
-		hashNb += is_tetriminos(tetriminos, i + 1, letter);
-		hashNb += is_tetriminos(tetriminos, i + 5, letter);
-		hashNb += is_tetriminos(tetriminos, i - 1, letter);
-		hashNb += is_tetriminos(tetriminos, i - 5, letter);
-	}
-	return (hashNb);
-}
 
 void			reset_tetriminos(char *tetriminos)
 {
@@ -36,56 +19,59 @@ void			reset_tetriminos(char *tetriminos)
 	{
 		if (tetriminos[i] <= 'Z' && tetriminos[i] >= 'A')
 			tetriminos[i] += 32;
-		i++;
-	}
-}
-
-void			init_solution(char *solution, int j)
-{
-	int			i;
-
-	i = 0;
-	while (i < j * j)
-	{
-		solution[i] = '.';
-		if ((i + 1) % j == 0)
-			solution[i] = '\n';
 		++i;
 	}
 }
 
-void			reset_solution(char *solution, char letter)
+void			reset_all_tetriminos(char **tetriminos)
 {
 	int			i;
 
 	i = 0;
-	while (solution[i])
+	while (tetriminos[i])
 	{
-		if (solution[i] == letter)
-			solution[i] = '.';
+		reset_tetriminos(tetriminos[i]);
 		++i;
 	}
+}
+
+int				is_tetriminos(char *tetriminos, int i, char letter)
+{
+	int			hashnb;
+
+	hashnb = 0;
+	if (i >= 0 && i < 20 && tetriminos[i] == '#')
+	{
+		tetriminos[i] = letter;
+		++hashnb;
+		hashnb += is_tetriminos(tetriminos, i + 1, letter);
+		hashnb += is_tetriminos(tetriminos, i + 5, letter);
+		hashnb += is_tetriminos(tetriminos, i - 1, letter);
+		hashnb += is_tetriminos(tetriminos, i - 5, letter);
+	}
+	return (hashnb);
 }
 
 int				set_tetriminos(char *tetriminos, int i, char *solution, int j)
 {
-	int			hashNb;
+	int			hashnb;
 	int			len;
 
-	hashNb = 0;
+	hashnb = 0;
 	len = 0;
 	while (solution[len] != '\n')
-		len++;
-	len++;
-	if (i >= 0 && i < 20 && j >= 0 && j < 20
+		++len;
+	++len;
+	if (i >= 0 && i < 20 && j >= 0 && j < (len * (len - 1))
 			&& tetriminos[i] >= 'a' && solution[j] == '.')
 	{
 		tetriminos[i] -= 32;
 		solution[j] = tetriminos[i];
-		++hashNb;
-		hashNb += set_tetriminos(tetriminos, i + 1, solution, j + 1);
-		hashNb += set_tetriminos(tetriminos, i + len, solution, j + len);
-		hashNb += set_tetriminos(tetriminos, i - 1, solution, j - 1);
+		++hashnb;
+		hashnb += set_tetriminos(tetriminos, i + 1, solution, j + 1);
+		hashnb += set_tetriminos(tetriminos, i + 5, solution, j + len);
+		hashnb += set_tetriminos(tetriminos, i - 1, solution, j - 1);
+		hashnb += set_tetriminos(tetriminos, i - 5, solution, j - len);
 	}
-	return (hashNb);
+	return (hashnb);
 }

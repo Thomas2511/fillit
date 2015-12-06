@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "fillit.h"
 #include "libft.h"
 
@@ -77,14 +76,17 @@ static int			lex_tetriminos(char **tetriminos)
 static int			parse_tetriminos(char **tetriminos)
 {
 	int			i;
+	char		letter;
 
+	letter = 'a';
 	while (*tetriminos != NULL)
 	{
 		i = 0;
 		while ((*tetriminos)[i] && (*tetriminos)[i] != '#')
 			++i;
-		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, 'a' + i) != 4)
+		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, letter) != 4)
 			return (0);
+		++letter;
 		++tetriminos;
 	}
 	return (1);

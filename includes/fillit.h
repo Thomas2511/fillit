@@ -14,11 +14,11 @@
 # define FILLIT_H
 
 char			**check_file(int fd);
+void			reset_tetriminos(char *tetriminos);
+void			reset_all_tetriminos(char **tetriminos);
 int				is_tetriminos(char *tetriminos, int i, char letter);
 int				set_tetriminos(char *tetriminos, int i, char *solution, int j);
-void			reset_tetriminos(char *tetriminos);
-void			init_solution(char *solution, int j);
-void			reset_solution(char *solution, char letter);
-void			solver(char **tetriminos);
+char			*solver(char **tetriminos);
+int				fill_solution(char **tetriminos, char **solution, int nb);
 
 #endif
