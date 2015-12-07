@@ -34,7 +34,7 @@ LIBS = -L $(LIBDIR) -lft
 # source files
 SRC		= fillit.c \
 		  check_file.c \
-		  is_tetriminos.c \
+		  tetriminos_handling.c \
 		  solver.c
 
 # obj

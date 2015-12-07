@@ -71,7 +71,6 @@ int				set_tetriminos(char *tetriminos, int i, char *solution, int j)
 		hashnb += set_tetriminos(tetriminos, i + 1, solution, j + 1);
 		hashnb += set_tetriminos(tetriminos, i + 5, solution, j + len);
 		hashnb += set_tetriminos(tetriminos, i - 1, solution, j - 1);
-		hashnb += set_tetriminos(tetriminos, i - 5, solution, j - len);
 	}
 	return (hashnb);
 }

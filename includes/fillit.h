@@ -19,6 +19,5 @@ void			reset_all_tetriminos(char **tetriminos);
 int				is_tetriminos(char *tetriminos, int i, char letter);
 int				set_tetriminos(char *tetriminos, int i, char *solution, int j);
 char			*solver(char **tetriminos);
-int				fill_solution(char **tetriminos, char **solution, int nb);
 
 #endif

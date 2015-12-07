@@ -15,7 +15,7 @@
 
 static void			init_solution(char *solution, int j)
 {
-	int			i;
+	int				i;
 
 	i = 0;
 	while (i < (j + 1) * j)
@@ -28,15 +28,13 @@ static void			init_solution(char *solution, int j)
 	}
 }
 
-static char			**enlarge_solution(char **t, char **s, int nb)
+static char			*enlarge_solution(char **t, char *s, int width)
 {
-	free(*s);
-	if ((*s = ft_strnew((nb + 2) * (nb + 1))) == NULL)
+	free(s);
+	if ((s = ft_strnew((width + 2) * (width + 1))) == NULL)
 		return (NULL);
-	init_solution(*s, nb + 1);
+	init_solution(s, width + 1);
 	reset_all_tetriminos(t);
-	if (!fill_solution(t, s, nb + 1))
-		return (NULL);
 	return (s);
 }
 
@@ -45,56 +43,49 @@ static int			place_tetriminos(char *t, char *s, int start, char letter)
 	int				i;
 	int				j;
 
-	while (s[start])
+	i = 0;
+	while (!ft_isalpha(t[i]))
+		++i;
+	if (set_tetriminos(t, i, s, start) == 4)
+		return (1);
+	reset_tetriminos(t);
+	j = 0;
+	while (s[j])
 	{
-		i = 0;
-		if (s[start] == '.' && t[i])
-		{
-			while (t[i] && !ft_isalpha(t[i]))
-				++i;
-			if (set_tetriminos(t, i, s, start) == 4)
-				return (1);
-			reset_tetriminos(t);
-			j = 0;
-			while (s[j])
-			{
-				if (s[j] == letter)
-					s[j] = '.';
-				++j;
-			}
-		}
-		++start;
+		if (s[j] == letter)
+			s[j] = '.';
+		++j;
 	}
 	return (0);
 }
 
-int					fill_solution(char **tetriminos, char **solution, int nb)
+static int			fill_solution(char **tet, char **sol, int index)
 {
 	int				i;
-	int				j;
+	char			*sol_cpy;
 
 	i = 0;
-	j = 0;
-	while (tetriminos[i])
+	if (tet[index] == NULL)
+		return (1);
+	sol_cpy = ft_strdup(*sol);
+	while ((*sol)[i])
 	{
-		if (place_tetriminos(tetriminos[i], *solution, 0, 'A' + i))
+		if (!place_tetriminos(tet[index], *sol, i, 'A' + index))
+		{
 			++i;
-		else if (j < (int)ft_strlen(*solution))
-		{
-			i = 0;
-			init_solution(*solution, nb);
-			reset_all_tetriminos(tetriminos);
-			if (place_tetriminos(tetriminos[i], *solution, ++j, 'A' + i))
-				++i;
+			continue ;
 		}
-		else
+		if (fill_solution(tet, sol, index + 1))
 		{
-			if ((solution = enlarge_solution(tetriminos, solution, nb)) == NULL)
-				return (0);
-			break ;
+			free(sol_cpy);
+			return (1);
 		}
+		free(*sol);
+		*sol = ft_strdup(sol_cpy);
+		++i;
 	}
-	return (1);
+	free(sol_cpy);
+	return (0);
 }
 
 char				*solver(char **tetriminos)
@@ -106,14 +97,18 @@ char				*solver(char **tetriminos)
 	i = 0;
 	j = 0;
 	while (tetriminos[i])
-		i++;
+		++i;
 	i = i * 4 < 16 ? 16 : i * 4;
 	while (j * j < i)
 		++j;
 	if ((solution = ft_strnew((j + 1) * j)) == NULL)
 		return (NULL);
 	init_solution(solution, j);
-	if (!fill_solution(tetriminos, &solution, j))
-		return (NULL);
+	while (!fill_solution(tetriminos, &solution, 0))
+	{
+		if ((solution = enlarge_solution(tetriminos, solution, j)) == NULL)
+			return (NULL);
+		++j;
+	}
 	return (solution);
 }
