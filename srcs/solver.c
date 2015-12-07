@@ -98,7 +98,7 @@ char				*solver(char **tetriminos)
 	j = 0;
 	while (tetriminos[i])
 		++i;
-	i = i * 4 < 16 ? 16 : i * 4;
+	i *= 4;
 	while (j * j < i)
 		++j;
 	if ((solution = ft_strnew((j + 1) * j)) == NULL)
