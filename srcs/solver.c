@@ -82,7 +82,6 @@ static int			fill_solution(char **tet, char **sol, int index)
 		}
 		free(*sol);
 		*sol = ft_strdup(sol_cpy);
-		++i;
 	}
 	free(sol_cpy);
 	return (0);
