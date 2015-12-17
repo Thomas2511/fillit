@@ -63,9 +63,15 @@ static int			lex_tetriminos(char **tetriminos)
 		i = 0;
 		while ((*tetriminos)[i])
 		{
-			if (((*tetriminos)[i] != '.' && (*tetriminos)[i] != '#')
-					&& (((i + 1) % 5) == 0 && (*tetriminos)[i] != '\n'))
+			if ((*tetriminos)[i] != '.' && (*tetriminos)[i] != '#'
+					&& (i + 1) % 5 != 0 && (i + 1) % 21 != 0)
 				return (0);
+			else
+			{
+				if ((*tetriminos)[i] != '\n'
+						&& ((i + 1) % 5 == 0 || (i + 1) % 21 == 0))
+					return (0);
+			}
 			++i;
 		}
 		++tetriminos;
