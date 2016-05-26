@@ -54,7 +54,7 @@ int				is_tetriminos(char *tetriminos, int i, char letter)
 	return (hashnb);
 }
 
-int				set_tetriminos(char *tetriminos, int i, t_sol *sol, int j)
+int				set_tetriminos(char *tetriminos, int i, t_solution *sol, int j)
 {
 	int			hashnb;
 
