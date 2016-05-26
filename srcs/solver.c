@@ -22,7 +22,7 @@ static t_solution	*init_solution(int j)
 	if (((solution = (t_solution *)ft_memalloc(sizeof(t_solution))) == NULL)
 			|| ((solution->data = (char *)ft_strnew((j + 1) * j)) == NULL))
 		return (NULL);
-	solution->len = (j + 1) * j;
+	solution->len = j + 1;
 	i = 0;
 	while (i < (j + 1) * j)
 	{
@@ -39,10 +39,11 @@ static t_solution	*enlarge_solution(char **t, t_solution *s, int width)
 {
 	t_solution		*new_solution;
 
+	free(s->data);
 	free(s);
 	new_solution = init_solution(width + 1);
 	reset_all_tetriminos(t);
-	return (s);
+	return (new_solution);
 }
 
 static int			place_tetriminos(char *t, t_solution *s,

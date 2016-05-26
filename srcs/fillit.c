@@ -37,7 +37,7 @@ int					main(int ac, char **av)
 		error();
 	if ((solution = solver(tetriminos)) == NULL)
 		error();
-	ft_putendl(solution->data);
+	ft_putstr(solution->data);
 	ft_clear_tab(tetriminos);
 	free(solution->data);
 	free(solution);
