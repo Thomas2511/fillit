@@ -45,7 +45,8 @@ static t_solution	*enlarge_solution(char **t, t_solution *s, int width)
 	return (s);
 }
 
-static int			place_tetriminos(char *t, t_solution *s, int start, char letter)
+static int			place_tetriminos(char *t, t_solution *s,
+		int start, char letter)
 {
 	int				i;
 	int				j;

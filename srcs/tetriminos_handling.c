@@ -54,20 +54,20 @@ int				is_tetriminos(char *tetriminos, int i, char letter)
 	return (hashnb);
 }
 
-int				set_tetriminos(char *tetriminos, int i, t_solution *solution, int j)
+int				set_tetriminos(char *tetriminos, int i, t_sol *sol, int j)
 {
 	int			hashnb;
 
 	hashnb = 0;
-	if (i >= 0 && i < 20 && j >= 0 && j < (solution->len * (solution->len - 1))
-			&& tetriminos[i] >= 'a' && solution->data[j] == '.')
+	if (i >= 0 && i < 20 && j >= 0 && j < (sol->len * (sol->len - 1))
+			&& tetriminos[i] >= 'a' && sol->data[j] == '.')
 	{
 		tetriminos[i] -= 32;
-		solution->data[j] = tetriminos[i];
+		sol->data[j] = tetriminos[i];
 		++hashnb;
-		hashnb += set_tetriminos(tetriminos, i + 1, solution, j + 1);
-		hashnb += set_tetriminos(tetriminos, i + 5, solution, j + solution->len);
-		hashnb += set_tetriminos(tetriminos, i - 1, solution, j - 1);
+		hashnb += set_tetriminos(tetriminos, i + 1, sol, j + 1);
+		hashnb += set_tetriminos(tetriminos, i + 5, sol, j + sol->len);
+		hashnb += set_tetriminos(tetriminos, i - 1, sol, j - 1);
 	}
 	return (hashnb);
 }
