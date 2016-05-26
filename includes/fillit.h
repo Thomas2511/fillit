@@ -12,6 +12,7 @@
 
 #ifndef FILLIT_H
 # define FILLIT_H
+
 typedef struct	s_solution
 {
 	char		*data;
@@ -22,6 +23,7 @@ char			**check_file(int fd);
 void			reset_tetriminos(char *tetriminos);
 void			reset_all_tetriminos(char **tetriminos);
 int				is_tetriminos(char *tetriminos, int i, char letter);
-int				set_tetriminos(char *tetriminos, int i, t_solution *solution, int j);
+int				set_tetriminos(char *tetriminos, int i,
+		t_solution *solution, int j);
 t_solution		*solver(char **tetriminos);
 #endif
