@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "fillit.h"
+
 void			reset_tetriminos(char *tetriminos)
 {
 	int			i;
@@ -52,24 +54,19 @@ int				is_tetriminos(char *tetriminos, int i, char letter)
 	return (hashnb);
 }
 
-int				set_tetriminos(char *tetriminos, int i, char *solution, int j)
+int				set_tetriminos(char *tetriminos, int i, t_solution *solution, int j)
 {
 	int			hashnb;
-	int			len;
 
 	hashnb = 0;
-	len = 0;
-	while (solution[len] != '\n')
-		++len;
-	++len;
-	if (i >= 0 && i < 20 && j >= 0 && j < (len * (len - 1))
-			&& tetriminos[i] >= 'a' && solution[j] == '.')
+	if (i >= 0 && i < 20 && j >= 0 && j < (solution->len * (solution->len - 1))
+			&& tetriminos[i] >= 'a' && solution->data[j] == '.')
 	{
 		tetriminos[i] -= 32;
-		solution[j] = tetriminos[i];
+		solution->data[j] = tetriminos[i];
 		++hashnb;
 		hashnb += set_tetriminos(tetriminos, i + 1, solution, j + 1);
-		hashnb += set_tetriminos(tetriminos, i + 5, solution, j + len);
+		hashnb += set_tetriminos(tetriminos, i + 5, solution, j + solution->len);
 		hashnb += set_tetriminos(tetriminos, i - 1, solution, j - 1);
 	}
 	return (hashnb);
