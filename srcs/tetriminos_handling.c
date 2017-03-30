@@ -42,7 +42,7 @@ int				is_tetriminos(char *tetriminos, int i, char letter)
 	int			hashnb;
 
 	hashnb = 0;
-	if (i >= 0 && i < 20 && tetriminos[i] == '#')
+	if (i >= 0 && i < 20 && tetriminos[i] && tetriminos[i] == '#')
 	{
 		tetriminos[i] = letter;
 		++hashnb;

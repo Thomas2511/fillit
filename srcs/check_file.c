@@ -41,16 +41,17 @@ static char			**read_file(int fd)
 	ft_bzero(buf, 546);
 	if (read(fd, buf, 546) < 0)
 		return (NULL);
+	if (ft_strlen(buf) < 20)
+		return (NULL);
 	while (buf[j] != '\0')
 	{
-		if (ft_strlen(buf) >= 20)
-			tetriminos[i] = ft_strsub(buf, 21 * i, 21);
-		else
-			return (NULL);
-		j += ft_strlen(tetriminos[i]);
+		tetriminos[i] = ft_strsub(buf, 20 * i + i, 20);
+		j += ft_strlen(tetriminos[i]) + 1;
 		tetriminos[i][ft_strlen(tetriminos[i])] = '\0';
 		++i;
 	}
+	if (buf[j - 1] == '\n' && buf[j - 2] == '\n')
+		return (NULL);
 	return (tetriminos);
 }
 
@@ -74,6 +75,8 @@ static int			lex_tetriminos(char **tetriminos)
 			}
 			++i;
 		}
+		if (i != 20)
+			return (0);
 		++tetriminos;
 	}
 	return (1);
@@ -90,7 +93,7 @@ static int			parse_tetriminos(char **tetriminos)
 		i = 0;
 		while ((*tetriminos)[i] && (*tetriminos)[i] != '#')
 			++i;
-		if ((*tetriminos)[i] && is_tetriminos(*tetriminos, i, letter) != 4)
+		if (is_tetriminos(*tetriminos, i, letter) != 4)
 			return (0);
 		++letter;
 		++tetriminos;
